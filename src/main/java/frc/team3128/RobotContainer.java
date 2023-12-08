@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import static edu.wpi.first.wpilibj2.command.Commands.*;
 import frc.team3128.commands.CmdAutoBalance;
 import frc.team3128.commands.CmdSwerveDrive;
+import frc.team3128.Constants.LedConstants.Colors;
 import frc.team3128.PositionConstants.Position;
 import static frc.team3128.commands.CmdManager.*;
 
@@ -17,6 +18,7 @@ import frc.team3128.common.hardware.input.NAR_ButtonBoard;
 import frc.team3128.common.hardware.input.NAR_Joystick;
 import frc.team3128.common.hardware.input.NAR_XboxController;
 import frc.team3128.common.utility.NAR_Shuffleboard;
+import frc.team3128.subsystems.Leds;
 import frc.team3128.subsystems.Swerve;
 import frc.team3128.subsystems.Vision;
 
@@ -178,6 +180,8 @@ public class RobotContainer {
         }
     }
 
+    public int selected = -1;
+
     private void initDashboard() {
 
         swerve.initShuffleboard();
@@ -188,6 +192,13 @@ public class RobotContainer {
         dashboard.addUpdate("voltage",()-> RobotController.getBatteryVoltage());
         dashboard.addUpdate("x", ()-> swerve.getPose().getX());
         dashboard.addUpdate("y", ()-> swerve.getPose().getY());
+        dashboard.addUpdate("selectedNode", ()-> selected);
+
+        dashboard.addButton("Example", (isDown)-> {
+            System.out.println("pig");
+            if (isDown) selected = 1;
+           if (!isDown) selected = -1;
+        });
     }
 
     public void updateDashboard() {

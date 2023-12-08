@@ -3,6 +3,8 @@ package frc.team3128.subsystems;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import common.core.controllers.Controller;
+import common.core.subsystems.NAR_PIDSubsystem;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
@@ -26,11 +28,11 @@ public class Wrist extends NAR_PIDSubsystem {
     }
 
     public Wrist() {
-        super(new PIDController(kP, kI, kD), kS, kV, kG);
+        super(new Controller(kP, kI, kD, kS, kV, kG, Controller.Type.POSITION));
         setkG_Function(()-> Math.cos(Units.degreesToRadians(getSetpoint())));
         setConstraints(MIN_ANGLE, MAX_ANGLE);
         configMotor();
-        initShuffleboard(kS, kV, kG);
+        initShuffleboard();
         m_controller.setTolerance(WRIST_TOLERANCE);
     }
 

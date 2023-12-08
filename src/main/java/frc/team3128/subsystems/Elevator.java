@@ -6,6 +6,9 @@ import static frc.team3128.PositionConstants.Position;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import common.core.controllers.Controller;
+import common.core.subsystems.NAR_PIDSubsystem;
+import frc.team3128.PositionConstants.Position;
 import frc.team3128.common.hardware.motorcontroller.NAR_CANSparkMax;
 import static frc.team3128.Constants.ElevatorConstants.*;
 
@@ -23,10 +26,10 @@ public class Elevator extends NAR_PIDSubsystem {
     }
 
     public Elevator() {
-        super(new PIDController(kP, kI, kD), kS, kV, kG);
+        super(new Controller(kP, kI, kD, kS, kV, kG, Controller.Type.POSITION));
         setConstraints(MIN_DIST, MAX_DIST);
         configMotors();
-        initShuffleboard(kS, kV, kG);
+        initShuffleboard();
         m_controller.setTolerance(ELV_TOLERANCE);
         resetEncoder();
     }
